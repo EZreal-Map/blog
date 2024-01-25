@@ -128,7 +128,7 @@ $ pnpm add element-plus
 pnpm add -D unplugin-vue-components unplugin-auto-import
 ```
 
-1. 然后把下列代码插入到你的 `Vite` 或 `Webpack` 的配置文件中
+2. 然后把下列代码插入到你的 `Vite` 或 `Webpack` 的配置文件中
 
 ```jsx
 ...
@@ -151,7 +151,7 @@ export default defineConfig({
 
 ```
 
-1. 直接使用
+3. 直接使用
 
 ```jsx
 <template>
