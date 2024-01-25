@@ -1,8 +1,8 @@
 <template>
   <div class="common-layout">
     <div class="header">
-      <topNavLeft></topNavLeft>
-      <topNavRight></topNavRight>
+      <TopNavLeft></TopNavLeft>
+      <TopNavRight></TopNavRight>
     </div>
     <div class="main">
       <router-view></router-view>
@@ -11,8 +11,8 @@
 </template>
 <script setup>
 // import { ElContainer, ElHeader, ElAside, ElMain, ElFooter } from 'element-plus'
-import topNavLeft from '@/components/topNavLeft.vue'
-import topNavRight from '@/components/topNavRight.vue'
+import TopNavLeft from '@/components/TopNavLeft.vue'
+import TopNavRight from '@/components/TopNavRight.vue'
 
 console.log('APP.vue')
 </script>
@@ -31,6 +31,7 @@ console.log('APP.vue')
   background-color: #b3c0d1;
   height: 60px;
   width: 100%;
+  flex-shrink: 0;
 }
 
 .main {

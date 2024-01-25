@@ -1,9 +1,9 @@
 <template>
   <div>HomeView</div>
-  <githubContribution></githubContribution>
+  <GithubContribution></GithubContribution>
 </template>
 <script setup>
-import githubContribution from '@/components/githubContribution.vue'
+import GithubContribution from '@/components/GithubContribution.vue'
 console.log('HomeView.vue')
 </script>
 <style scoped></style>
