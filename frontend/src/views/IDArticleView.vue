@@ -9,7 +9,7 @@
       <MdCatalog
         :editorId="id"
         :scrollElement="scrollElement"
-        :previewTheme="ref(cyanosis)"
+        previewTheme="cyanosis"
       />
     </div>
   </div>
@@ -18,6 +18,7 @@
 <script setup>
 import { ref } from 'vue'
 import { MdPreview, MdEditor, MdCatalog } from 'md-editor-v3'
+import axios from 'axios'
 // preview.css相比style.css少了编辑器那部分样式
 // import 'md-editor-v3/lib/preview.css'
 import 'md-editor-v3/lib/style.css'
@@ -29,6 +30,17 @@ const text = ref(`# Hello Editor
 ## Hello Editor
 ### Hello Editor`)
 const scrollElement = document.documentElement
+
+// 使用 async/await 处理异步代码
+;(async () => {
+  try {
+    const { data } = await axios.get(`http://127.0.0.1:8080/blog/${2}`)
+    console.log(data)
+    text.value = data.content
+  } catch (error) {
+    // 处理错误
+  }
+})()
 </script>
 
 <style scoped>
