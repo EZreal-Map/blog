@@ -29,6 +29,7 @@ import { getBlogIDService, putBlogIDService } from '@/api/blog.js'
 import 'md-editor-v3/lib/style.css'
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
+import { ElMessage } from 'element-plus'
 
 const route = useRoute()
 let edit = ref(false)
@@ -51,7 +52,6 @@ const blogSave = async (content) => {
   if (data.status === 200) {
     // console.log('blog save success')
     edit.value = false
-    // eslint-disable-next-line no-undef
     ElMessage({
       message: 'blog save success',
       type: 'success'
