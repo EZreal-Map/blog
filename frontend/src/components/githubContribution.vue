@@ -17,65 +17,17 @@
   </div>
 </template>
 <script setup>
-import axios from 'axios'
 import { shallowRef } from 'vue'
 import { githubApiKey, githubName } from '/secret.js' // 从前端项目根目录 secret.js 中导入 githubApiKey
+import { getGithubContributions } from '@/api/github.js'
+
 let datas = shallowRef(null)
 
-// 使用 async/await 处理异步代码
 ;(async () => {
-  try {
-    const { data } = await getContributions(githubApiKey, githubName)
-    console.log('hello')
-
-    datas.value = data.user.contributionsCollection.contributionCalendar
-    console.log(datas.value)
-  } catch (error) {
-    // 处理错误
-  }
+  console.log('hello GithubContribution.vue')
+  const { data } = await getGithubContributions(githubName, githubApiKey)
+  datas.value = data.data.user.contributionsCollection.contributionCalendar
 })()
-
-async function getContributions(token, username) {
-  const headers = {
-    Authorization: `bearer ${token}`,
-    'Content-Type': 'application/json'
-  }
-
-  const query = `
-    query {
-      user(login: "${username}") {
-        name
-        contributionsCollection {
-          contributionCalendar {
-            colors
-            totalContributions
-            weeks {
-              contributionDays {
-                color
-                contributionCount
-                date
-                weekday
-              }
-              firstDay
-            }
-          }
-        }
-      }
-    }
-  `
-
-  try {
-    const { data } = await axios.post(
-      'https://api.github.com/graphql',
-      { query },
-      { headers }
-    )
-    return data
-  } catch (error) {
-    console.error('Error fetching data:', error.message)
-    throw error
-  }
-}
 </script>
 <style scoped>
 .container {

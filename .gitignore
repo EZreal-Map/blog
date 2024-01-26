@@ -30,3 +30,4 @@ coverage
 *.tsbuildinfo
 
 secret.js
+__pycache__/
