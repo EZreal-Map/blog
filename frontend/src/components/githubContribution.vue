@@ -6,13 +6,16 @@
       class="weeks"
     >
       {{ weekIndex }}
-      <div
-        v-for="cell in weeks.contributionDays"
-        :key="cell.firstDay"
-        class="cell"
-        :style="{ backgroundColor: cell.color }"
-        :title="`${cell.contributionCount === 0 ? 'No contribution' : cell.contributionCount + ' contributions'} on ${cell.date}`"
-      ></div>
+      <div v-for="cell in weeks.contributionDays" :key="cell.firstDay">
+        <el-tooltip
+          class="box-item"
+          effect="dark"
+          :content="`${cell.contributionCount === 0 ? 'No contribution' : cell.contributionCount + ' contributions'} on ${cell.date}`"
+          placement="top"
+        >
+          <div class="cell" :style="{ backgroundColor: cell.color }"></div>
+        </el-tooltip>
+      </div>
     </div>
   </div>
 </template>

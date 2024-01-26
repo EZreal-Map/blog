@@ -64,7 +64,7 @@ const blogSave = async (content) => {
 .right-top {
   position: fixed;
   top: 60px;
-  right: 0;
+  right: 20px;
   overflow: auto; /* 使用滚动条来处理超出视口的内容 */
   max-height: 100vh; /* 最大高度不超过视口高度 */
   width: 300px; /* 设置固定宽度，可以根据需要调整 */
@@ -72,9 +72,6 @@ const blogSave = async (content) => {
   background-color: white; /* 设置背景色，以防内容透明时看不清 */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 添加阴影效果，提高可读性 */
   z-index: 1000; /* 确保组件在其他元素上方 */
-  word-wrap: break-word; /* 允许在单词内换行 */
-  overflow-wrap: break-word; /* 允许在单词内换行（兼容性更好的属性名） */
-  white-space: normal; /* 允许文本自动换行 */
 }
 
 .fixed-buttons {
