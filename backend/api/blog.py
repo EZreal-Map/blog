@@ -1,14 +1,14 @@
 from fastapi import APIRouter
 from models.models import Blog
 from pydantic import BaseModel, validator
-blog = APIRouter()
+blogRouter = APIRouter()
 
-@blog.get('/list')
+@blogRouter.get('/list')
 async def getArticle():
     blog = await Blog.all()
     return blog
 
-@blog.get('/{blog_id}')
+@blogRouter.get('/{blog_id}')
 async def getArticle(blog_id: int):
     blog = await Blog.get(id = blog_id)
     return blog
@@ -19,12 +19,12 @@ class Article(BaseModel):
     content: str
 
 
-@blog.post('')
-async def createArticle(blog: Article):
-    blog = await Blog.create(title = blog.title, content = blog.content)
+@blogRouter.post('')
+async def createArticle(blogInfo: Article):
+    blog = await Blog.create(title = blogInfo.title, content = blogInfo.content)
     return blog
 
-@blog.put('/{blog_id}')
-async def createArticle(blog_id: int, blog: Article):
-    await Blog.filter(id = blog_id).update(title = blog.title, content = blog.content)
-    return blog
+@blogRouter.put('/{blog_id}')
+async def createArticle(blog_id: int, blogInfo: Article):
+    await Blog.filter(id = blog_id).update(title = blogInfo.title, content = blogInfo.content)
+    return blogInfo

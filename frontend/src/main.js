@@ -1,11 +1,12 @@
 import { createApp } from 'vue'
-import pinia from '@/stores/index'
 import App from './App.vue'
+import { createPinia } from 'pinia'
+import persist from 'pinia-plugin-persistedstate'
 import router from './router'
-
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 
+const pinia = createPinia().use(persist)
 const app = createApp(App)
 
 app.use(pinia) // pinia持久化后的封装

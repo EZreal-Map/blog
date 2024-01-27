@@ -17,9 +17,9 @@ import HeaderView from '@/components/HeaderView.vue'
   display: flex;
   flex-direction: column;
   height: 100vh;
-  width: 100vw;
   align-items: center; /* 水平居中 */
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
+  /* width: 100vw; */
 }
 
 .header {
