@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import HomeView from '@/views/HomeView.vue'
 import ArticlesView from '@/views/ArticlesView.vue'
-import CatogoryView from '@/views/CatogoryView.vue'
+import CategoryView from '@/views/CategoryView.vue'
 import IDArticleView from '@/views/IDArticleView.vue'
 import CreateArticleView from '@/views/CreateArticleView.vue'
 
@@ -19,9 +19,18 @@ const router = createRouter({
       children: [
         { path: 'home', name: 'home', component: HomeView },
         { path: 'articles', name: 'articles', component: ArticlesView },
-        { path: 'catogory', name: 'catogory', component: CatogoryView },
-        { path: 'article/:id', name: 'id-article', component: IDArticleView },
-        { path: 'create', name: 'create-article', component: CreateArticleView }
+        { path: 'articles/:id', name: 'id-article', component: IDArticleView },
+        { path: 'categories', name: 'categories', component: CategoryView },
+        {
+          path: 'categories/:tag',
+          name: 'tag-category',
+          component: CategoryView
+        },
+        {
+          path: 'create',
+          name: 'create-article',
+          component: CreateArticleView
+        }
       ]
     }
   ]

@@ -18,8 +18,8 @@
       >时间归档</el-menu-item
     >
     <el-menu-item
-      index="/blog/catogory"
-      @click="router.push({ path: '/blog/catogory' })"
+      index="/blog/category"
+      @click="router.push({ path: '/blog/categories' })"
       >分类</el-menu-item
     >
     <div class="flex-grow" />
