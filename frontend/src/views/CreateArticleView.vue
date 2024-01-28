@@ -46,7 +46,7 @@ const blogCreate = async () => {
   height: 100%;
 }
 
-/* 使用组件名作为选择器 类似元素选择器*/
+/* 使用组件名作为选择器 类似标签选择器*/
 /* 让 MdEditor 占据剩余的全部空间 */
 /* MdEditor {
   flex: 1;

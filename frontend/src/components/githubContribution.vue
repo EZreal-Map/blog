@@ -5,7 +5,6 @@
       :key="weekIndex"
       class="weeks"
     >
-      {{ weekIndex }}
       <div v-for="cell in weeks.contributionDays" :key="cell.firstDay">
         <el-tooltip
           class="box-item"
@@ -30,12 +29,14 @@ let datas = shallowRef(null)
   console.log('hello GithubContribution.vue')
   const { data } = await getGithubContributions(githubName, githubApiKey)
   datas.value = data.data.user.contributionsCollection.contributionCalendar
+  console.log(datas.value)
 })()
 </script>
 <style scoped>
 .container {
   display: flex;
-  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
   background-color: #fff;
 }
 
@@ -46,8 +47,12 @@ let datas = shallowRef(null)
 
 .cell {
   width: 16px;
-  height: 16px;
-  background-color: green;
+  height: 18px;
   margin: 2px; /* Add some margin for better visualization */
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+}
+.cell:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 </style>

@@ -26,19 +26,19 @@ import HeaderView from '@/components/HeaderView.vue'
   display: flex;
   /* justify-content: space-between; */
   /* align-items: center; */
-  /* background-color: #b3c0d1; */
+  /* background-color: #add8e6; */
   /* height: 60px; */
   width: 100vw;
   /* flex-shrink: 0; */
   position: fixed;
   z-index: 1000;
   top: 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 .layout-main {
   margin-top: 60px;
-  width: 60vw;
-  min-width: 1080px;
+  width: 1060px;
   min-height: calc(100vh - 60px); /* 设置高度为视口高度减去头部高度 */
-  background-color: #f0f0f0;
+  /* background-color: #f0f0f0; */
 }
 </style>
