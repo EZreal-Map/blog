@@ -1,9 +1,9 @@
 <template>
-  <div class="common-layout">
+  <div class="layout">
     <!-- <div class="header"> -->
-    <HeaderView class="header"></HeaderView>
+    <HeaderView class="layout-header"></HeaderView>
     <!-- </div> -->
-    <div class="main">
+    <div class="layout-main">
       <router-view></router-view>
     </div>
   </div>
@@ -13,7 +13,7 @@ console.log('APP.vue')
 import HeaderView from '@/components/HeaderView.vue'
 </script>
 <style scoped>
-.common-layout {
+.layout {
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -22,7 +22,7 @@ import HeaderView from '@/components/HeaderView.vue'
   /* width: 100vw; */
 }
 
-.header {
+.layout-header {
   display: flex;
   /* justify-content: space-between; */
   /* align-items: center; */
@@ -34,7 +34,7 @@ import HeaderView from '@/components/HeaderView.vue'
   z-index: 1000;
   top: 0;
 }
-.main {
+.layout-main {
   margin-top: 60px;
   width: 60vw;
   min-width: 1080px;

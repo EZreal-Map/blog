@@ -21,8 +21,9 @@ class Article(BaseModel):
 
 @blogRouter.post('')
 async def createArticle(blogInfo: Article):
+    print(blogInfo.title, blogInfo.content)
     blog = await Blog.create(title = blogInfo.title, content = blogInfo.content)
-    return blog
+    return {'id':blog.id}
 
 @blogRouter.put('/{blog_id}')
 async def createArticle(blog_id: int, blogInfo: Article):

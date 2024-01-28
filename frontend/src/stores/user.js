@@ -8,16 +8,20 @@ export const useUserStore = defineStore(
     let LoginVisibility = ref(false) // 登录框是否显示
     let Nickname = ref(null)
     let Email = ref(null)
+    let Edit = ref(false) // 是否是编辑状态
+    let EditIconDisabled = ref(true) // 是否显示编辑图标
 
     return {
       LoginVisibility,
       Nickname,
-      Email
+      Email,
+      Edit,
+      EditIconDisabled
+    }
+  },
+  {
+    persist: {
+      paths: ['Nickname', 'Email']
     }
   }
-  // {
-  //   persist: {
-  //     paths: ['visibility', 'showBuliding']
-  //   }
-  // }
 )

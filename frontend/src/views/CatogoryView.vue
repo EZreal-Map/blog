@@ -1,5 +1,5 @@
 <template>
-  <div class="main">CatogoryView</div>
+  <div>CatogoryView</div>
 </template>
 <script setup>
 console.log('CatogoryView.vue')

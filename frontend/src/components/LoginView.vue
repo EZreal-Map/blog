@@ -23,10 +23,10 @@
         ref="formRef"
       >
         <el-form-item label="Nickname" prop="Nickname">
-          <el-input v-model="userState.Nickname" />
+          <el-input v-model="userState.Nickname" clearable />
         </el-form-item>
         <el-form-item label="Email" prop="Email">
-          <el-input v-model="userState.Email" />
+          <el-input v-model="userState.Email" clearable />
         </el-form-item>
       </el-form>
     </div>
