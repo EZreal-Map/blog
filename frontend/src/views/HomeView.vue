@@ -2,14 +2,14 @@
   <!-- 最近文章块 -->
   <div class="section">
     <h1>最近文章</h1>
-    <ArticlesView></ArticlesView>
+    <ArticlesView :limit="4"></ArticlesView>
   </div>
 
   <!-- 分类块 -->
   <div class="section">
     <h1>分类</h1>
     <div class="tag-container">
-      <div v-for="tag in tags" :key="tag" class="tag">{{ tag }}</div>
+      <div v-for="tag in tags" :key="tag" class="tag">{{ tag.name }}</div>
     </div>
   </div>
 
@@ -21,10 +21,17 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import GithubContribution from '@/components/GithubContribution.vue'
 import ArticlesView from '@/views/ArticlesView.vue'
+import { getTagListService } from '@/api/tag.js'
 
-const tags = ['Vue.js', 'JavaScript', 'CSS', 'Python', 'FastAPI']
+const tags = ref()
+;(async () => {
+  const response = await getTagListService()
+  // console.log('response:', response.data)
+  tags.value = response.data
+})()
 </script>
 
 <style scoped>

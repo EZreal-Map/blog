@@ -7,14 +7,14 @@
     >
       <el-menu-item
         v-for="tag in tags"
-        :index="`/blog/categories/${tag}`"
-        :key="tag"
+        :index="`/blog/categories/${tag.name}`"
+        :key="tag.id"
       >
-        <span>{{ tag }}</span>
+        <span>{{ tag.name }}</span>
       </el-menu-item>
     </el-menu>
   </div>
-  <ArticlesView></ArticlesView>
+  <ArticlesView :tag="route.params.tag"></ArticlesView>
 </template>
 
 <script setup>
@@ -22,10 +22,16 @@ console.log('CategoryView.vue')
 import { ref } from 'vue'
 import ArticlesView from '@/views/ArticlesView.vue'
 import { useRoute } from 'vue-router'
-const tags = ref(['Vue.js', 'JavaScript', 'CSS', 'Python', 'FastAPI', '随想'])
+import { getTagListService } from '@/api/tag.js'
 
 const route = useRoute()
-console.log(route.path)
+
+const tags = ref()
+;(async () => {
+  const response = await getTagListService()
+  // console.log('response:', response.data)
+  tags.value = response.data
+})()
 </script>
 
 <style scoped>

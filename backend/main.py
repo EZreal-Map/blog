@@ -14,6 +14,7 @@ from config import settings
 from fastapi.staticfiles import StaticFiles
 from api.blog import blogRouter
 from api.user import userRouter
+from api.tag import tagRouter
 from core.Events import startup, stopping
 from core.Exception import http_error_handler, http422_error_handler, unicorn_exception_handler, UnicornException
 from core.Middleware import Middleware
@@ -41,6 +42,7 @@ application.add_exception_handler(UnicornException, unicorn_exception_handler) #
 # 路由
 application.include_router(blogRouter, prefix="/blog")
 application.include_router(userRouter, prefix="/user")
+application.include_router(tagRouter, prefix="/tag")
 
 
 # 中间件

@@ -17,19 +17,37 @@
 </template>
 <script setup>
 console.log('Articles.vue')
-import { onMounted, shallowRef } from 'vue'
+import { onMounted, shallowRef, watch } from 'vue'
 import { RouterLink } from 'vue-router'
-
 import { getBlogListService } from '@/api/blog.js'
 
+const props = defineProps({
+  limit: {
+    type: Number,
+    default: null
+  },
+  tag: {
+    type: String,
+    default: null
+  }
+})
 const blogs = shallowRef([])
 
 onMounted(async () => {
-  const data = await getBlogListService()
+  const data = await getBlogListService(props.limit, props.tag)
   // console.log(data)
   blogs.value = data.data
   // text.value = data.content
 })
+
+// 子组件时刻监听tag变化，才能触发子组件页面更新，与开启IDArticleView.vue不同之处
+watch(
+  () => props.tag,
+  async (tag) => {
+    const data = await getBlogListService(props.limit, tag)
+    blogs.value = data.data
+  }
+)
 </script>
 <style scoped>
 .blog-link {

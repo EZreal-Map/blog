@@ -7,8 +7,8 @@ class Blog(Model):
     content = fields.TextField()
     created_at = fields.DatetimeField(auto_now_add=True)
     updated_at = fields.DatetimeField(auto_now=True)
-    # 多对多关系
-    tags = fields.ManyToManyField('models.Tag', related_name='blogs')
+     # 一对多关系
+    tag =  fields.ForeignKeyField('models.Tag', related_name='blogs')
 
 class Comment(Model):
     id = fields.IntField(pk=True)
@@ -32,3 +32,7 @@ class User(Model):
 class Tag(Model):
     id = fields.IntField(pk=True)
     name = fields.CharField(max_length=255)
+    created_at = fields.DatetimeField(auto_now_add=True)
+    updated_at = fields.DatetimeField(auto_now=True)
+    
+   

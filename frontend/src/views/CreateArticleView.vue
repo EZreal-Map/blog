@@ -1,54 +1,163 @@
 <template>
-  <div class="main-create">
-    <el-input
-      v-model="title"
-      style="font-size: 24px; height: 60px"
-      placeholder="请输入一个标题"
-      clearable
+  <div class="container">
+    <div class="title-select-container">
+      <!-- 创建文章--title-->
+      <el-input
+        v-model="create_title"
+        style="font-size: 16px; height: 40px"
+        placeholder="请输入一个标题"
+        clearable
+      />
+      <!-- 创建文章--tag-->
+      <el-select
+        v-model="create_tag_id"
+        placeholder="请选择一个标签"
+        size="large"
+        style="width: 200px"
+        filterable
+        allow-create
+      >
+        <el-option
+          v-for="tag in tags"
+          :key="tag.id"
+          :label="tag.name"
+          :value="tag.id"
+        />
+      </el-select>
+    </div>
+    <!-- 创建文章--content-->
+    <MdEditor
+      style="height: 100%"
+      @onSave="props.blog_id ? blogSave() : blogCreate()"
+      v-model="create_content"
     />
-    <MdEditor style="height: 100%" @onSave="blogCreate" v-model="content" />
   </div>
 </template>
 
 <script setup>
 import { MdEditor } from 'md-editor-v3'
-import { postBlogService } from '@/api/blog.js'
+import { postBlogService, putBlogIDService } from '@/api/blog.js'
 // preview.css相比style.css少了编辑器那部分样式
 // import 'md-editor-v3/lib/preview.css'
 import 'md-editor-v3/lib/style.css'
-import { ref } from 'vue'
+import { ref, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
+import { getTagListService } from '@/api/tag.js'
+import { useUserStore } from '@/stores/user.js'
 
+const userState = useUserStore()
 const router = useRouter()
-const content = ref('')
-let title = ref('')
+const props = defineProps({
+  blog_id: {
+    type: String,
+    default: null
+  },
+  title: {
+    type: String,
+    default: null
+  },
+  content: {
+    type: String,
+    default: null
+  },
+  tag_id: {
+    type: Number,
+    default: null
+  }
+})
+
+const emit = defineEmits(['update:title', 'update:content', 'update:tag_id'])
+
+const create_content = ref()
+const create_title = ref()
+const create_tag_id = ref()
+const tags = ref()
+;(async () => {
+  const response = await getTagListService()
+  // console.log('response:', response.data)
+  tags.value = response.data
+  console.log(props.tag_id)
+  if (props.blog_id) {
+    create_title.value = props.title
+    create_content.value = props.content
+    create_tag_id.value = props.tag_id
+  }
+})()
 
 const blogCreate = async () => {
-  const response = await postBlogService(title.value, content.value)
+  console.log('blogCreate', props.blog_id)
+  const matchedTag = tags.value.find((tag) => tag.id === create_tag_id.value)
+  const tagName = matchedTag ? matchedTag.name : null
+  const response = await postBlogService(
+    create_title.value,
+    create_content.value,
+    tagName
+  )
   // console.log(response)
   if (response.status === 200) {
     // console.log('blog save success')
     const id = response.data.id
-    router.push({ path: `/blog/article/${id}` })
+    router.push({ path: `/blog/articles/${id}` })
     ElMessage({
       message: 'blog create success',
       type: 'success'
     })
   }
 }
+
+const blogSave = async () => {
+  console.log('blogSave', props.blog_id)
+  const matchedTag = tags.value.find((tag) => tag.id === create_tag_id.value)
+  const tagName = matchedTag ? matchedTag.name : null
+  const response = await putBlogIDService(
+    props.blog_id,
+    create_title.value,
+    create_content.value,
+    tagName
+  )
+  if (response.status === 200) {
+    // console.log('blog save success')
+    const id = response.data.id
+    router.push({ path: `/blog/articles/${id}` })
+    userState.Edit = false
+    ElMessage({
+      message: 'blog save success',
+      type: 'success'
+    })
+  }
+}
+
+onUnmounted(() => {
+  // 如果没有传入blog_id，就代表不是从create_button方法，则清空编辑器
+  if (props.blog_id) {
+    console.log('blog_id:', props.blog_id)
+    emit('update:content', create_content.value)
+    emit('update:title', create_title.value)
+    // console.log(create_tag_id.value)
+    emit('update:tag_id', create_tag_id.value)
+  }
+})
 </script>
 
 <style scoped>
-.main-create {
+.container {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
-/* 使用组件名作为选择器 类似标签选择器*/
-/* 让 MdEditor 占据剩余的全部空间 */
-/* MdEditor {
-  flex: 1;
-} */
+/* 新增样式 */
+.title-select-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 16px;
+  margin-top: 20px;
+}
+
+/* 调整 el-select 样式 */
+.el-select {
+  margin-left: 10px; /* 控制 el-select 与 el-input 之间的水平间距 */
+}
 </style>
