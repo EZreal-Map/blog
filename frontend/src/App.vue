@@ -37,7 +37,8 @@ import HeaderView from '@/components/HeaderView.vue'
 }
 .layout-main {
   margin-top: 60px;
-  width: 1060px;
+  width: 80vw;
+  max-width: 1060px;
   min-height: calc(100vh - 60px); /* 设置高度为视口高度减去头部高度 */
   /* background-color: #f0f0f0; */
 }

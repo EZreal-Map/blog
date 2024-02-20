@@ -13,6 +13,7 @@
     <div class="showTitle">{{ title }}</div>
     <MdPreview :editorId="id" :modelValue="content" />
 
+    <!-- 右侧标题导航 -->
     <div class="right-top">
       <MdCatalog
         :editorId="id"
@@ -93,6 +94,13 @@ onUnmounted(() => {
   background-color: white; /* 设置背景色，以防内容透明时看不清 */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 添加阴影效果，提高可读性 */
   z-index: 1000; /* 确保组件在其他元素上方 */
+}
+
+/* 添加媒体查询 */
+@media (max-width: 1700px) {
+  .right-top {
+    display: none; /* 当视口宽度小于1700px时隐藏右侧标题导航 */
+  }
 }
 
 .fixed-buttons {

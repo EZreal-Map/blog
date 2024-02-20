@@ -38,6 +38,7 @@ let datas = shallowRef(null)
   justify-content: center;
   align-items: flex-start;
   background-color: #fff;
+  overflow-x: auto; /* 允许水平滚动 */
 }
 
 .weeks {

@@ -2,7 +2,7 @@
   <!-- 最近文章块 -->
   <div class="section">
     <h1>最近文章</h1>
-    <ArticlesView :limit="4"></ArticlesView>
+    <ArticlesView :limit="3"></ArticlesView>
   </div>
 
   <!-- 分类块 -->

@@ -15,7 +15,9 @@
       </el-menu-item>
     </el-menu>
   </div>
-  <ArticlesView :tag="route.params.tag"></ArticlesView>
+  <div class="container-main">
+    <ArticlesView :tag="route.params.tag"></ArticlesView>
+  </div>
 </template>
 
 <script setup>
@@ -43,8 +45,17 @@ const tags = ref()
   left: 0;
   width: 150px;
   height: 100%;
-  border-right: 1px solid rgb(0 0 0 / 50%);
+  border-right: 2px solid rgb(25 25 25 / 20%);
   padding-top: 5px;
-  background-color: #efefef;
+  background-color: #f9f9f9;
+}
+
+@media (max-width: 1400px) {
+  .container-left {
+    width: 100px;
+  }
+  .container-main {
+    margin-left: 90px;
+  }
 }
 </style>

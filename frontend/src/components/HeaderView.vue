@@ -40,8 +40,8 @@
       <el-menu-item
         class="submenu-paddingleft"
         index="/blog/create"
-        @click="router.push({ path: '/blog/create' })"
-        >查看</el-menu-item
+        @click="router.push({ path: '/blog' })"
+        >删除</el-menu-item
       >
       <el-menu-item
         class="submenu-paddingleft"

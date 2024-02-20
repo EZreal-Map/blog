@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="userState.LoginVisibility" width="500px">
+  <el-dialog v-model="userState.LoginVisibility" :width="dialogWidth">
     <div class="title">
       <el-popover
         placement="top"
@@ -42,12 +42,19 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useUserStore } from '@/stores/user.js'
 import { putUserEmailService } from '@/api/user.js'
 import { ElMessage } from 'element-plus'
 
 const userState = useUserStore()
+
+const dialogWidth = computed(() => {
+  // Calculate the width as 90% of the screen or 500px, whichever is smaller
+  const screenWidth = window.innerWidth
+  console.log('screenWidth:', screenWidth)
+  return Math.min(screenWidth * 0.9, 500) + 'px'
+})
 
 let formRef = ref()
 const rules = {
@@ -92,10 +99,6 @@ const LoginConfirmHandle = async () => {
 </script>
 
 <style scoped>
-.pop-dialog {
-  width: 400px;
-}
-
 .login {
   padding: 0px 40px 0px 80px;
 }
@@ -106,5 +109,15 @@ const LoginConfirmHandle = async () => {
   font-size: 24px;
   font-weight: 700;
   text-align: center;
+}
+
+@media (max-width: 600px) {
+  .login {
+    padding: 0px 20px 0px 20px;
+  }
+  .title {
+    margin-top: 0px;
+    margin-bottom: 10px;
+  }
 }
 </style>
