@@ -87,8 +87,9 @@ const tags = ref()
 
 const blogCreate = async () => {
   console.log('blogCreate', props.blog_id)
+  // create_tag_id.value保存的是已处在的tag_id，如果没有select匹配的tag_id，就保存input的tag_name
   const matchedTag = tags.value.find((tag) => tag.id === create_tag_id.value)
-  const tagName = matchedTag ? matchedTag.name : null
+  const tagName = matchedTag ? matchedTag.name : create_tag_id.value
   const response = await postBlogService(
     create_title.value,
     create_content.value,
@@ -109,7 +110,7 @@ const blogCreate = async () => {
 const blogSave = async () => {
   console.log('blogSave', props.blog_id)
   const matchedTag = tags.value.find((tag) => tag.id === create_tag_id.value)
-  const tagName = matchedTag ? matchedTag.name : null
+  const tagName = matchedTag ? matchedTag.name : create_tag_id.value
   const response = await putBlogIDService(
     props.blog_id,
     create_title.value,

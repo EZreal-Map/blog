@@ -8,7 +8,7 @@ class UserValidator(BaseModel):
     email: str
 
 
-@userRouter.put('')
+@userRouter.put('',summary="用户创建/登录",description="检查用户邮箱是否存在，存在则更新昵称，不存在则创建新用户")
 async def createUser(userInfo: UserValidator):
     registered = await User.filter(email = userInfo.email)
     # 如果数据库中已经存在与 registered 对象相同的记录（通过 email 查找的记录），那么这将更新该记录的 nickname 字段的值。

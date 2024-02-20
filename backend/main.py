@@ -40,9 +40,9 @@ application.add_exception_handler(RequestValidationError, http422_error_handler)
 application.add_exception_handler(UnicornException, unicorn_exception_handler) # web服务器错误
 
 # 路由
-application.include_router(blogRouter, prefix="/blog")
-application.include_router(userRouter, prefix="/user")
-application.include_router(tagRouter, prefix="/tag")
+application.include_router(blogRouter, prefix="/blog", tags=["blog"])
+application.include_router(userRouter, prefix="/user",tags=["user"])
+application.include_router(tagRouter, prefix="/tag",tags=["tag"])
 
 
 # 中间件

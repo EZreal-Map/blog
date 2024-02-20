@@ -9,7 +9,11 @@
   <div class="section">
     <h1>分类</h1>
     <div class="tag-container">
-      <div v-for="tag in tags" :key="tag" class="tag">{{ tag.name }}</div>
+      <div v-for="tag in tags" :key="tag" class="tag">
+        <router-link :to="{ name: 'tag-category', params: { tag: tag.name } }">
+          {{ tag.name }}
+        </router-link>
+      </div>
     </div>
   </div>
 
@@ -71,5 +75,11 @@ const tags = ref()
 .tag:hover {
   background-color: skyblue;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.tag a {
+  text-decoration: none; /* 禁用下划线 */
+  color: inherit; /* 继承父元素的文字颜色 */
+  /* 可以根据需要添加其他样式 */
 }
 </style>

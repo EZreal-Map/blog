@@ -17,6 +17,7 @@
       <MdCatalog
         :editorId="id"
         :scrollElement="scrollElement"
+        :scrollElementOffsetTop="60"
         previewTheme="cyanosis"
       />
     </div>
@@ -55,7 +56,7 @@ const blogId = route.params.id
   content.value = data.content
   title.value = data.title
   tag_id.value = data.tag_id
-  console.log('data:', data)
+  // console.log('data:', data)
 })()
 
 // const blogSave = async () => {

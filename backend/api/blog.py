@@ -4,7 +4,7 @@ from pydantic import BaseModel, validator
 blogRouter = APIRouter()
 
 
-@blogRouter.get('')
+@blogRouter.get('',summary="获取文章列表",description="获取文章列表，支持分页和标签过滤")
 async def getArticle(limit: int = Query(None, description="Limit the number of articles", ge=1), tag: str = Query(None, description="Filter articles by tag")):
     if limit:
         blog_limit = await Blog.all().order_by('-created_at').limit(limit)
@@ -16,7 +16,7 @@ async def getArticle(limit: int = Query(None, description="Limit the number of a
     blog_all = await Blog.all().order_by('-created_at')
     return blog_all
 
-@blogRouter.get('/{blog_id}')
+@blogRouter.get('/{blog_id}',summary="获取文章详情",description="获取文章详情")
 async def getArticle(blog_id: int):
     blog = await Blog.get(id = blog_id)
     return blog
@@ -28,7 +28,7 @@ class ArticleValidator(BaseModel):
     tag: str
 
 
-@blogRouter.post('')
+@blogRouter.post('',summary="创建文章",description="创建文章")
 async def createArticle(blogInfo: ArticleValidator):
     # 尝试从 Tag 表中获取对应的 tag 记录，如果不存在，则创建新的 Tag 记录
     [tag_instance, _] = await Tag.get_or_create(name=blogInfo.tag)
@@ -40,7 +40,7 @@ async def createArticle(blogInfo: ArticleValidator):
     
     return blog
 
-@blogRouter.put('/{blog_id}')
+@blogRouter.put('/{blog_id}',summary="更新文章",description="更新文章")
 async def createArticle(blog_id: int, blogInfo: ArticleValidator):
     # 获取或创建标签
     tag_instance, _ = await Tag.get_or_create(name=blogInfo.tag)

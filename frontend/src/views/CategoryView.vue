@@ -1,10 +1,11 @@
 <template>
   <div class="container-left">
     <el-menu
-      :default-active="route.path"
+      :default-active="decodeURIComponent(route.path)"
       background-color="efefef"
       :router="true"
     >
+      <!-- decodeURIComponent特定的为url中出现中文解码 -->
       <el-menu-item
         v-for="tag in tags"
         :index="`/blog/categories/${tag.name}`"
@@ -25,6 +26,7 @@ import { useRoute } from 'vue-router'
 import { getTagListService } from '@/api/tag.js'
 
 const route = useRoute()
+console.log('route:', route.path)
 
 const tags = ref()
 ;(async () => {
