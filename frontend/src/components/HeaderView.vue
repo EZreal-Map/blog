@@ -24,7 +24,7 @@
     >
     <div class="flex-grow" />
     <el-sub-menu index="admin" popper-class="pop-menu">
-      <template #title>Admin</template>
+      <template #title>{{ userState.Nickname || 'VISITOR' }}</template>
       <el-menu-item
         class="submenu-paddingleft"
         index="login"
@@ -35,12 +35,14 @@
         class="submenu-paddingleft"
         index="/blog/create"
         @click="router.push({ path: '/blog/create' })"
+        :disabled="userState.Role !== 'admin'"
         >新建</el-menu-item
       >
       <el-menu-item
         class="submenu-paddingleft"
         index="/blog/create"
         @click="router.push({ path: '/blog' })"
+        :disabled="userState.EditIconDisabled"
         >删除</el-menu-item
       >
       <el-menu-item
@@ -59,6 +61,7 @@
 import LoginView from '@/components/LoginView.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user.js'
+
 const userState = useUserStore()
 
 const route = useRoute()

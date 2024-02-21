@@ -18,36 +18,45 @@
         label-position="top"
         label-width="100px"
         style="max-width: 300px"
-        :model="userState"
+        :model="temp_model"
         :rules="rules"
         ref="formRef"
       >
-        <el-form-item label="Nickname" prop="Nickname">
-          <el-input v-model="userState.Nickname" clearable />
+        <el-form-item label="Nickname" prop="nickname">
+          <el-input v-model="temp_model.nickname" clearable />
         </el-form-item>
-        <el-form-item label="Email" prop="Email">
-          <el-input v-model="userState.Email" clearable />
+        <el-form-item label="Email" prop="email">
+          <el-input v-model="temp_model.email" clearable />
         </el-form-item>
       </el-form>
     </div>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="userState.LoginVisibility = false">Cancel</el-button>
-        <el-button type="primary" @click="LoginConfirmHandle()"
-          >Confirm</el-button
-        >
+        <el-button @click="userState.LogoutHandle()">登出</el-button>
+        <el-button type="primary" @click="LoginConfirmHandle()">确定</el-button>
       </span>
     </template>
   </el-dialog>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useUserStore } from '@/stores/user.js'
 import { putUserEmailService } from '@/api/user.js'
 import { ElMessage } from 'element-plus'
 
 const userState = useUserStore()
+
+const temp_model = ref({ nickname: userState.Nickname, email: userState.Email })
+
+// 监视登录状态变化，更新昵称和邮箱
+watch(
+  () => userState.LoginVisibility,
+  () => {
+    temp_model.value.nickname = userState.Nickname
+    temp_model.value.email = userState.Email
+  }
+)
 
 const dialogWidth = computed(() => {
   // Calculate the width as 90% of the screen or 500px, whichever is smaller
@@ -58,8 +67,8 @@ const dialogWidth = computed(() => {
 
 let formRef = ref()
 const rules = {
-  Nickname: [{ required: true, message: '请输入昵称', trigger: 'blur' }],
-  Email: [
+  nickname: [{ required: true, message: '请输入昵称', trigger: 'blur' }],
+  email: [
     { required: true, message: '请输入邮箱', trigger: 'blur' },
     {
       type: 'email',
@@ -76,23 +85,30 @@ const LoginConfirmHandle = async () => {
     .validate()
     .then(async () => {
       const message = await putUserEmailService(
-        userState.Nickname,
-        userState.Email
+        temp_model.value.nickname,
+        temp_model.value.email
       )
       if (message.status === 200) {
+        userState.Role = message.data.role
+        userState.Nickname = message.data.nickname
+        userState.Email = message.data.email
+        userState.Token = message.data.token
         ElMessage({
           message: '登录成功',
           type: 'success'
         })
+        userState.LoginVisibility = false
       }
-      userState.LoginVisibility = false
     })
     .catch((err) => {
-      for (const key in err) {
-        ElMessage({
-          message: err[key][0].message,
-          type: 'error'
-        })
+      if (!err.isAxiosError) {
+        // 处理其他错误, 如表单验证错误
+        for (const key in err) {
+          ElMessage({
+            message: err[key][0].message,
+            type: 'error'
+          })
+        }
       }
     })
 }

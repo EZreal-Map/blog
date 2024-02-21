@@ -1,7 +1,12 @@
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Query, Depends
 from models.models import Blog,Tag
-from pydantic import BaseModel, validator
+from pydantic import BaseModel
+from core.Authenticate import is_admin_user
+from fastapi import HTTPException, status
+import tortoise
+
 blogRouter = APIRouter()
+
 
 
 @blogRouter.get('',summary="获取文章列表",description="获取文章列表，支持分页和标签过滤")
@@ -18,8 +23,14 @@ async def getArticle(limit: int = Query(None, description="Limit the number of a
 
 @blogRouter.get('/{blog_id}',summary="获取文章详情",description="获取文章详情")
 async def getArticle(blog_id: int):
-    blog = await Blog.get(id = blog_id)
-    return blog
+    try:
+        blog = await Blog.get(id=blog_id)
+        return blog
+    except tortoise.exceptions.DoesNotExist:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="文章不存在",
+        )
 
 
 class ArticleValidator(BaseModel):
@@ -28,7 +39,7 @@ class ArticleValidator(BaseModel):
     tag: str
 
 
-@blogRouter.post('',summary="创建文章",description="创建文章")
+@blogRouter.post('',summary="创建文章",description="创建文章", dependencies=[Depends(is_admin_user)])
 async def createArticle(blogInfo: ArticleValidator):
     # 尝试从 Tag 表中获取对应的 tag 记录，如果不存在，则创建新的 Tag 记录
     [tag_instance, _] = await Tag.get_or_create(name=blogInfo.tag)
@@ -40,7 +51,7 @@ async def createArticle(blogInfo: ArticleValidator):
     
     return blog
 
-@blogRouter.put('/{blog_id}',summary="更新文章",description="更新文章")
+@blogRouter.put('/{blog_id}',summary="更新文章",description="更新文章", dependencies=[Depends(is_admin_user)])
 async def createArticle(blog_id: int, blogInfo: ArticleValidator):
     # 获取或创建标签
     tag_instance, _ = await Tag.get_or_create(name=blogInfo.tag)

@@ -24,10 +24,19 @@ class Comment(Model):
 
 class User(Model):
     id = fields.IntField(pk=True)
-    nickname = fields.CharField(max_length=255)
-    email = fields.CharField(max_length=255)
+    nickname = fields.CharField(max_length=255, unique=True)
+    email = fields.CharField(max_length=255, unique=True)
     created_at = fields.DatetimeField(auto_now_add=True)
     updated_at = fields.DatetimeField(auto_now=True)
+    
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "nickname": self.nickname,
+            "email": self.email,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at
+        }
 
 class Tag(Model):
     id = fields.IntField(pk=True)

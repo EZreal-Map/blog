@@ -16,8 +16,8 @@ from api.blog import blogRouter
 from api.user import userRouter
 from api.tag import tagRouter
 from core.Events import startup, stopping
-from core.Exception import http_error_handler, http422_error_handler, unicorn_exception_handler, UnicornException
-from core.Middleware import Middleware
+# from core.Exception import http_error_handler, http422_error_handler, unicorn_exception_handler, UnicornException
+# from core.Middleware import Middleware
 from tortoise.contrib.fastapi import register_tortoise
 import uvicorn
 
@@ -34,10 +34,10 @@ application.add_event_handler("startup", startup(application))
 application.add_event_handler("shutdown", stopping(application))
 
 
-# 异常错误处理
-application.add_exception_handler(HTTPException, http_error_handler) # HTTP异常重写
-application.add_exception_handler(RequestValidationError, http422_error_handler) # 请求验证错误
-application.add_exception_handler(UnicornException, unicorn_exception_handler) # web服务器错误
+# # 异常错误处理
+# application.add_exception_handler(HTTPException, http_error_handler) # HTTP异常重写
+# application.add_exception_handler(RequestValidationError, http422_error_handler) # 请求验证错误
+# application.add_exception_handler(UnicornException, unicorn_exception_handler) # web服务器错误
 
 # 路由
 application.include_router(blogRouter, prefix="/blog", tags=["blog"])
@@ -46,7 +46,7 @@ application.include_router(tagRouter, prefix="/tag",tags=["tag"])
 
 
 # 中间件
-application.add_middleware(Middleware)
+# application.add_middleware(Middleware)
 application.add_middleware(
     SessionMiddleware,
     secret_key="session",

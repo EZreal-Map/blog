@@ -33,7 +33,7 @@ import { getTagListService } from '@/api/tag.js'
 const tags = ref()
 ;(async () => {
   const response = await getTagListService()
-  // console.log('response:', response.data)
+  console.log('response:', response)
   tags.value = response.data
 })()
 </script>
