@@ -42,9 +42,9 @@ instance.interceptors.response.use(
       userStore.LoginVisibility = true
       router.push('/blog')
       ElMessage({ message: '无权限访问', type: 'error' })
-      // } else if (err.response?.status === 403) {
-      //   // 处理403错误，例如提示用户无权限
-      //   ElMessage({ message: '无权限访问', type: 'error' })
+    } else if (err.response?.status === 422) {
+      // 处理403错误，例如提示用户无权限
+      ElMessage({ message: '保存失败', type: 'error' })
     } else if (err.response?.status === 404) {
       // 处理404错误，例如显示页面不存在提示
       router.push('/blog/not-found')

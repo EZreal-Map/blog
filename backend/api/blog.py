@@ -60,3 +60,9 @@ async def createArticle(blog_id: int, blogInfo: ArticleValidator):
      # 返回更新后的博客信息
     updated_blog = await Blog.get(id=blog_id)
     return updated_blog
+
+@blogRouter.delete('/{blog_id}',summary="删除文章",description="删除文章", dependencies=[Depends(is_admin_user)])
+async def deleteArticle(blog_id: int):
+    # 删除文章
+    await Blog.filter(id = blog_id).delete()
+    return {"message": "博客删除成功"}

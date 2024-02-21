@@ -40,8 +40,8 @@
       >
       <el-menu-item
         class="submenu-paddingleft"
-        index="/blog/create"
-        @click="router.push({ path: '/blog' })"
+        index="/blog/delete"
+        @click="deleteBlogHandle()"
         :disabled="userState.EditIconDisabled"
         >删除</el-menu-item
       >
@@ -61,11 +61,41 @@
 import LoginView from '@/components/LoginView.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user.js'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { deleteBlogIDService } from '@/api/blog'
 
 const userState = useUserStore()
 
 const route = useRoute()
 const router = useRouter()
+
+const deleteBlogHandle = () => {
+  const blogId = route.params.id
+  console.log('deleteBlogHandle', blogId)
+  ElMessageBox.confirm('确定要删除这篇博客吗？', '警告', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  })
+    .then(() => {
+      ElMessage({
+        type: 'success',
+        message: '删除成功'
+      })
+      deleteBlogIDService(blogId)
+      router.push({ path: '/blog/articles' })
+      // 等待一小段时间，然后重新加载页面
+      setTimeout(() => {
+        window.location.reload()
+      }, 0) // 适当的等待时间，确保路由生效
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: '取消删除'
+      })
+    })
+}
 </script>
 
 <style>

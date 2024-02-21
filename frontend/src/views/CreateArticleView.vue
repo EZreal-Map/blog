@@ -86,6 +86,13 @@ const tags = ref()
 })()
 
 const blogCreate = async () => {
+  if (!create_title.value || !create_content.value || !create_tag_id.value) {
+    ElMessage({
+      message: '请填写所有必填字段',
+      type: 'warning'
+    })
+    return
+  }
   console.log('blogCreate', props.blog_id)
   // create_tag_id.value保存的是已处在的tag_id，如果没有select匹配的tag_id，就保存input的tag_name
   const matchedTag = tags.value.find((tag) => tag.id === create_tag_id.value)
@@ -101,7 +108,7 @@ const blogCreate = async () => {
     const id = response.data.id
     router.push({ path: `/blog/articles/${id}` })
     ElMessage({
-      message: 'blog create success',
+      message: '新建博客成功',
       type: 'success'
     })
   }
@@ -123,7 +130,7 @@ const blogSave = async () => {
     router.push({ path: `/blog/articles/${id}` })
     userState.Edit = false
     ElMessage({
-      message: 'blog save success',
+      message: '修改博客成功',
       type: 'success'
     })
   }

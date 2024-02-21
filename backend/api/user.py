@@ -1,7 +1,7 @@
 from enum import Enum
 from fastapi import APIRouter, HTTPException
 from models.models import User
-from pydantic import BaseModel, validator, EmailStr
+from pydantic import BaseModel, EmailStr
 from core.Authenticate import SECRET_KEY, ALGORITHM
 import jwt
 from typing import Optional

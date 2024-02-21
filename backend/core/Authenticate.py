@@ -6,12 +6,8 @@ from fastapi import Depends, HTTPException
 
 SECRET_KEY = "ioweurlaksjdfoiquwerlkasjdf"
 ALGORITHM = "HS256"
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/user")
 
-
-class Token(BaseModel):
-    access_token: str
-    token_type: str
 
 def is_admin_user(token: str = Depends(oauth2_scheme)):
     print("is_admin_user", token)

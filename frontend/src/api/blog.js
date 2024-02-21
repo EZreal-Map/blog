@@ -20,3 +20,5 @@ export const putBlogIDService = (id, title, content, tag) =>
 // 文章：新建文章
 export const postBlogService = (title, content, tag) =>
   request.post('/blog', { title, content, tag })
+// 文章：根据ID删除文章
+export const deleteBlogIDService = (id) => request.delete(`/blog/${id}`)

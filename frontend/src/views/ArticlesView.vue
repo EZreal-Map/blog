@@ -16,7 +16,6 @@
   </RouterLink>
 </template>
 <script setup>
-console.log('Articles.vue')
 import { onMounted, shallowRef, watch } from 'vue'
 import { RouterLink } from 'vue-router'
 import { getBlogListService } from '@/api/blog.js'
