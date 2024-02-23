@@ -1,3 +1,3 @@
 export const githubApiKey =
-  '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'
+  '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'
 export const githubName = 'EZreal-Map'

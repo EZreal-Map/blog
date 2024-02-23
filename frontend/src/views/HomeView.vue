@@ -21,6 +21,7 @@
   <div class="section">
     <h1>Github</h1>
     <GithubContribution></GithubContribution>
+    <!--<img src="https://ghchart.rshah.org/EZreal-Map" alt="Name Your Github chart">-->
   </div>
 </template>
 

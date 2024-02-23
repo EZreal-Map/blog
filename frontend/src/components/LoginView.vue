@@ -51,7 +51,7 @@
 import { ref, computed, watch } from 'vue'
 import { useUserStore } from '@/stores/user.js'
 import { putUserEmailService } from '@/api/user.js'
-import { ElMessage } from 'element-plus'
+// import { ElMessage } from 'element-plus'
 
 const userState = useUserStore()
 
