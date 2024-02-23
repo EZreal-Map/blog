@@ -22,7 +22,8 @@
       @click="router.push({ path: '/blog/categories' })"
       >分类</el-menu-item
     >
-    <div class="flex-grow" />
+    <!-- 总结占格子，作用撑开的作用 -->
+    <div class="flex-grow"></div>
     <el-sub-menu index="admin" popper-class="pop-menu">
       <template #title>{{ userState.Nickname || 'VISITOR' }}</template>
       <el-menu-item
@@ -31,6 +32,7 @@
         @click="userState.LoginVisibility = true"
         >登录</el-menu-item
       >
+      <!-- 如果不是管理员，则禁用删除按钮 -->
       <el-menu-item
         class="submenu-paddingleft"
         index="/blog/create"
@@ -38,18 +40,20 @@
         :disabled="userState.Role !== 'admin'"
         >新建</el-menu-item
       >
+      <!-- 如果不是管理员或者编辑按钮被禁用，则禁用删除按钮 -->
       <el-menu-item
         class="submenu-paddingleft"
         index="/blog/delete"
         @click="deleteBlogHandle()"
-        :disabled="userState.EditIconDisabled"
+        :disabled="userState.Role !== 'admin' || userState.EditIconDisabled"
         >删除</el-menu-item
       >
+      <!-- 如果不是管理员或者编辑按钮被禁用，则禁用编辑按钮 -->
       <el-menu-item
         class="submenu-paddingleft"
         index="edit"
         @click="userState.Edit = !userState.Edit"
-        :disabled="userState.EditIconDisabled"
+        :disabled="userState.Role !== 'admin' || userState.EditIconDisabled"
         >编辑</el-menu-item
       >
     </el-sub-menu>

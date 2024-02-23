@@ -47,12 +47,12 @@ application.include_router(tagRouter, prefix="/tag",tags=["tag"])
 
 # 中间件
 # application.add_middleware(Middleware)
-application.add_middleware(
-    SessionMiddleware,
-    secret_key="session",
-    session_cookie="f_id",
-    # max_age=4
-)
+# application.add_middleware(
+#     SessionMiddleware,
+#     secret_key="session",
+#     session_cookie="f_id",
+#     # max_age=4
+# )
 application.add_middleware(
     CORSMiddleware,
     allow_origins=settings.CORS_ORIGINS,
@@ -70,7 +70,7 @@ register_tortoise(
 )
 
 # 静态资源目录
-application.mount('/static', StaticFiles(directory=os.path.join(os.getcwd(), "static")))
+# application.mount('/static', StaticFiles(directory=os.path.join(os.getcwd(), "static")))
 
 app = application
 

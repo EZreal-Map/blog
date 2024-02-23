@@ -23,10 +23,18 @@
         ref="formRef"
       >
         <el-form-item label="Nickname" prop="nickname">
-          <el-input v-model="temp_model.nickname" clearable />
+          <el-input
+            v-model="temp_model.nickname"
+            placeholder="请输入昵称"
+            clearable
+          />
         </el-form-item>
         <el-form-item label="Email" prop="email">
-          <el-input v-model="temp_model.email" clearable />
+          <el-input
+            v-model="temp_model.email"
+            placeholder="请输入邮箱"
+            clearable
+          />
         </el-form-item>
       </el-form>
     </div>

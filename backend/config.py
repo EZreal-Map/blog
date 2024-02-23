@@ -11,7 +11,7 @@ class Config(BaseSettings):
     PROJECT_NAME: str = "blog"
     DESCRIPTION: str = 'fastapi为后端的blog项目'
     # 静态资源目录
-    STATIC_DIR: str = os.path.join(os.getcwd(), "static")
+    # STATIC_DIR: str = os.path.join(os.getcwd(), "static")
     # 跨域请求
     CORS_ORIGINS: List[str] = ['*']
     CORS_ALLOW_CREDENTIALS: bool = True
