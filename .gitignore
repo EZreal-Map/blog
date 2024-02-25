@@ -29,4 +29,9 @@ coverage
 
 *.tsbuildinfo
 
+# 忽略所有文件夹下的 secret.js 文件  images 文件夹
+**/secret.js
+**/images
+
+
 __pycache__/

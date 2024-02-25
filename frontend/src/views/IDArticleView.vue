@@ -1,4 +1,5 @@
 <template>
+  <!-- 编辑文章 -->
   <div class="main-idArticle-edit" v-if="userState.Edit">
     <CreateArticleView
       :blog_id="blogId"

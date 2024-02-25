@@ -49,6 +49,9 @@ instance.interceptors.response.use(
       // 处理404错误，例如显示页面不存在提示
       router.push('/blog/not-found')
       ElMessage({ message: '文章不存在', type: 'error' })
+    } else if (err.response?.status === 500) {
+      // 处理500错误，例如显示服务端错误提示
+      ElMessage({ message: '服务器错误', type: 'error' })
     }
 
     return Promise.reject(err)

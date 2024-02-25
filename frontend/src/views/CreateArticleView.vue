@@ -30,6 +30,7 @@
       style="height: 100%"
       @onSave="props.blog_id ? blogSave() : blogCreate()"
       v-model="create_content"
+      @onUploadImg="onUploadImg"
     />
   </div>
 </template>
@@ -45,6 +46,7 @@ import { useRouter } from 'vue-router'
 // import { ElMessage } from 'element-plus'
 import { getTagListService } from '@/api/tag.js'
 import { useUserStore } from '@/stores/user.js'
+import { postUploadImgService } from '@/api/image'
 
 const userState = useUserStore()
 const router = useRouter()
@@ -131,6 +133,38 @@ const blogSave = async () => {
     userState.Edit = false
     ElMessage({
       message: '修改博客成功',
+      type: 'success'
+    })
+  }
+}
+
+const onUploadImg = async (files) => {
+  // 上传图片计数
+  let successfulUploadCount = 0
+
+  // 使用 Promise.all 来等待所有上传完成
+  await Promise.all(
+    files.map(async (file) => {
+      const form = new FormData()
+      form.append('file', file)
+      const response = await postUploadImgService(form)
+      console.log('response:', response)
+
+      if (response.status === 200) {
+        const baseUrl = 'http://8.148.8.169'
+        const imagesPortNumber = '8964'
+        const imageMarkdown = `![${file.name}](${baseUrl}:${imagesPortNumber}/${encodeURIComponent(response.data.filename)})`
+        // 将图片插入到编辑器中
+        create_content.value = imageMarkdown + '\n' + create_content.value
+        successfulUploadCount += 1
+      }
+    })
+  )
+
+  // 所有图片上传成功后显示消息
+  if (successfulUploadCount === files.length) {
+    ElMessage({
+      message: '图片上传成功',
       type: 'success'
     })
   }

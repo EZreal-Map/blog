@@ -15,6 +15,7 @@ from fastapi.staticfiles import StaticFiles
 from api.blog import blogRouter
 from api.user import userRouter
 from api.tag import tagRouter
+from api.image import imageRouter
 from core.Events import startup, stopping
 # from core.Exception import http_error_handler, http422_error_handler, unicorn_exception_handler, UnicornException
 # from core.Middleware import Middleware
@@ -43,7 +44,7 @@ application.add_event_handler("shutdown", stopping(application))
 application.include_router(blogRouter, prefix="/blog", tags=["blog"])
 application.include_router(userRouter, prefix="/user",tags=["user"])
 application.include_router(tagRouter, prefix="/tag",tags=["tag"])
-
+application.include_router(imageRouter, prefix="/image",tags=["image"])
 
 # 中间件
 # application.add_middleware(Middleware)

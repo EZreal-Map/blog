@@ -73,7 +73,7 @@ const showTooltipHandler = (event, contributionCount, date) => {
   const rect = event.target.getBoundingClientRect() // 获取元素位置信息
   tooltip_top.value = rect.top // 垂直方向：不要中心点，就要上表面
   tooltip_left.value = (rect.left + rect.right) / 2 // 水平方向：中心点
-  tooltip_content.value = `${contributionCount === 0 ? 'No contribution' : contributionCount + ' contributions'} on ${date}`
+  tooltip_content.value = `${contributionCount === 0 ? 'No contribution' : contributionCount + ' ' + (contributionCount === 1 ? 'contribution' : 'contributions')} on ${date}`
   tooltip_visible.value = true
 }
 </script>
