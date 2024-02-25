@@ -2,7 +2,7 @@
   <!-- 最近文章块 -->
   <div class="section">
     <h1>最近文章</h1>
-    <ArticlesView :limit="3"></ArticlesView>
+    <ArticlesView :limit="computeLimit" :maxLimit="maxLimit"></ArticlesView>
   </div>
 
   <!-- 分类块 -->
@@ -26,7 +26,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed, ref, onMounted, onUnmounted } from 'vue'
 import GithubContribution from '@/components/GithubContribution.vue'
 import ArticlesView from '@/views/ArticlesView.vue'
 import { getTagListService } from '@/api/tag.js'
@@ -37,6 +37,38 @@ const tags = ref()
   console.log('response:', response)
   tags.value = response.data
 })()
+
+const minLimit = 1
+const maxLimit = 5
+
+const screenHeight = ref(window.innerHeight - 500)
+
+// 监听窗口大小变化
+const handleResize = () => {
+  screenHeight.value = window.innerHeight - 500
+}
+
+// 在组件挂载时添加窗口大小变化的监听
+onMounted(() => {
+  window.addEventListener('resize', handleResize)
+})
+
+// 在组件销毁时移除窗口大小变化的监听
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize)
+})
+
+// 使用computed返回新的计算结果
+const computeLimit = computed(() => {
+  let limit = Math.floor(screenHeight.value / 90)
+  // 添加限制条件
+  if (limit < minLimit) {
+    limit = minLimit
+  } else if (limit > maxLimit) {
+    limit = maxLimit
+  }
+  return limit
+})
 </script>
 
 <style scoped>

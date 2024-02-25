@@ -1,10 +1,11 @@
-from fastapi import APIRouter, UploadFile, File, HTTPException
+from fastapi import APIRouter, UploadFile, File, HTTPException, Depends
 from pathlib import Path
 import platform
+from core.Authenticate import is_admin_user
 
 imageRouter = APIRouter()
 
-@imageRouter.post('/upload', summary="上传图片", description="上传图片")
+@imageRouter.post('/upload', summary="上传图片", description="上传图片", dependencies=[Depends(is_admin_user)])
 async def uploadImage(file: UploadFile = File(...)):
     try:
         # 获取文件名

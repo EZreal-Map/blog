@@ -68,8 +68,7 @@ watch(
 
 const dialogWidth = computed(() => {
   // Calculate the width as 90% of the screen or 500px, whichever is smaller
-  const screenWidth = window.innerWidth
-  console.log('screenWidth:', screenWidth)
+  const screenWidth = window.innerHeight
   return Math.min(screenWidth * 0.9, 500) + 'px'
 })
 
