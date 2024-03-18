@@ -6,7 +6,7 @@ import CategoryView from '@/views/CategoryView.vue'
 import IDArticleView from '@/views/IDArticleView.vue'
 import CreateArticleView from '@/views/CreateArticleView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
-import { ElMessage } from 'element-plus'
+// import { ElMessage } from 'element-plus'
 
 // 路由守卫
 const isAdmin = (to, from, next) => {

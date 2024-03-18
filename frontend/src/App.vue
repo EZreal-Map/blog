@@ -9,7 +9,7 @@
   </div>
 </template>
 <script setup>
-console.log('APP.vue')
+// console.log('APP.vue')
 import HeaderView from '@/components/HeaderView.vue'
 </script>
 <style scoped>

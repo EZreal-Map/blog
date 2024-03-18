@@ -1,5 +1,6 @@
 <template>
-  <div class="main-idArticle-edit" v-if="userState.Edit">
+  <!-- 编辑文章 -->
+  <div class="main-idArticle-edit" v-if="userStore.Edit">
     <CreateArticleView
       :blog_id="blogId"
       v-model:title="title"
@@ -37,9 +38,9 @@ import { useUserStore } from '@/stores/user.js'
 import { getBlogIDService } from '@/api/blog.js'
 import CreateArticleView from './CreateArticleView.vue'
 
-const userState = useUserStore()
-userState.Edit = false // 默认进入IDArticle后清除编辑能力
-userState.EditIconDisabled = false // 默认进入IDArticle编辑按钮可用
+const userStore = useUserStore()
+userStore.Edit = false // 默认进入IDArticle后清除编辑能力
+userStore.EditIconDisabled = false // 默认进入IDArticle编辑按钮可用
 
 const route = useRoute()
 const id = 'preview-only'
@@ -64,7 +65,7 @@ const blogId = route.params.id
 //   const data = await putBlogIDService(blogId, title.value, content.value)
 //   if (data.status === 200) {
 //     // console.log('blog save success')
-//     userState.Edit = false
+//     userStore.Edit = false
 //     ElMessage({
 //       message: 'blog save success',
 //       type: 'success'
@@ -73,7 +74,7 @@ const blogId = route.params.id
 // }
 
 onUnmounted(() => {
-  userState.EditIconDisabled = true
+  userStore.EditIconDisabled = true
 })
 </script>
 
@@ -86,7 +87,7 @@ onUnmounted(() => {
 .right-top {
   position: fixed;
   top: 120px;
-  right: 4px;
+  left: 4px;
   overflow: auto; /* 使用滚动条来处理超出视口的内容 */
   max-height: 100vh; /* 最大高度不超过视口高度 */
   width: 300px; /* 设置固定宽度，可以根据需要调整 */
@@ -97,9 +98,9 @@ onUnmounted(() => {
 }
 
 /* 添加媒体查询 */
-@media (max-width: 1700px) {
+@media (max-width: 1685px) {
   .right-top {
-    display: none; /* 当视口宽度小于1700px时隐藏右侧标题导航 */
+    display: none; /* 当视口宽度小于1685px时隐藏右侧标题导航 */
   }
 }
 

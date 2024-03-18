@@ -28,15 +28,26 @@ const props = defineProps({
   tag: {
     type: String,
     default: null
+  },
+  maxLimit: {
+    type: Number,
+    default: null
   }
 })
 const blogs = shallowRef([])
+let maxBlogs
 
 onMounted(async () => {
-  const data = await getBlogListService(props.limit, props.tag)
-  // console.log(data)
-  blogs.value = data.data
-  // text.value = data.content
+  // 其他页面不因为界面高度伸缩变化而动态调整 limit，此时props.limit永远为null，全部获取
+  if (props.maxLimit === null) {
+    const response = await getBlogListService(props.limit, props.tag)
+    blogs.value = response.data
+  } else {
+    // maxLimit有值的时候，来自于 HomeView.vue 首页，进行伸缩变化调整 limit
+    const response = await getBlogListService(props.maxLimit, props.tag)
+    maxBlogs = response.data
+    blogs.value = maxBlogs.slice(0, props.limit)
+  }
 })
 
 // 子组件时刻监听tag变化，才能触发子组件页面更新，与开启IDArticleView.vue不同之处
@@ -45,6 +56,15 @@ watch(
   async (tag) => {
     const data = await getBlogListService(props.limit, tag)
     blogs.value = data.data
+  }
+)
+
+watch(
+  () => props.limit,
+  async (limit) => {
+    if (maxBlogs) {
+      blogs.value = maxBlogs.slice(0, limit)
+    }
   }
 )
 </script>

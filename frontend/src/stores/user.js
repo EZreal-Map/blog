@@ -1,13 +1,13 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { ElMessage } from 'element-plus'
+// import { ElMessage } from 'element-plus'
 
 export const useUserStore = defineStore(
   'user',
   () => {
     // 直接赋值，没有返回函数的方式修改
     const LoginVisibility = ref(false) // 登录框是否显示
-    const Nickname = ref('VISITOR')
+    const Nickname = ref('')
     const Email = ref(null)
     const Edit = ref(false) // 是否是编辑状态
     const EditIconDisabled = ref(true) // 是否 Disabled 编辑图标

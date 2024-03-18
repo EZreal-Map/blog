@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="userState.LoginVisibility" :width="dialogWidth">
+  <el-dialog v-model="userStore.LoginVisibility" :width="dialogWidth">
     <div class="title">
       <el-popover
         placement="top"
@@ -23,16 +23,24 @@
         ref="formRef"
       >
         <el-form-item label="Nickname" prop="nickname">
-          <el-input v-model="temp_model.nickname" clearable />
+          <el-input
+            v-model="temp_model.nickname"
+            placeholder="请输入昵称"
+            clearable
+          />
         </el-form-item>
         <el-form-item label="Email" prop="email">
-          <el-input v-model="temp_model.email" clearable />
+          <el-input
+            v-model="temp_model.email"
+            placeholder="请输入邮箱"
+            clearable
+          />
         </el-form-item>
       </el-form>
     </div>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="userState.LogoutHandle()">登出</el-button>
+        <el-button @click="userStore.LogoutHandle()">登出</el-button>
         <el-button type="primary" @click="LoginConfirmHandle()">确定</el-button>
       </span>
     </template>
@@ -43,25 +51,24 @@
 import { ref, computed, watch } from 'vue'
 import { useUserStore } from '@/stores/user.js'
 import { putUserEmailService } from '@/api/user.js'
-import { ElMessage } from 'element-plus'
+// import { ElMessage } from 'element-plus'
 
-const userState = useUserStore()
+const userStore = useUserStore()
 
-const temp_model = ref({ nickname: userState.Nickname, email: userState.Email })
+const temp_model = ref({ nickname: userStore.Nickname, email: userStore.Email })
 
 // 监视登录状态变化，更新昵称和邮箱
 watch(
-  () => userState.LoginVisibility,
+  () => userStore.LoginVisibility,
   () => {
-    temp_model.value.nickname = userState.Nickname
-    temp_model.value.email = userState.Email
+    temp_model.value.nickname = userStore.Nickname
+    temp_model.value.email = userStore.Email
   }
 )
 
 const dialogWidth = computed(() => {
   // Calculate the width as 90% of the screen or 500px, whichever is smaller
   const screenWidth = window.innerWidth
-  console.log('screenWidth:', screenWidth)
   return Math.min(screenWidth * 0.9, 500) + 'px'
 })
 
@@ -89,15 +96,15 @@ const LoginConfirmHandle = async () => {
         temp_model.value.email
       )
       if (message.status === 200) {
-        userState.Role = message.data.role
-        userState.Nickname = message.data.nickname
-        userState.Email = message.data.email
-        userState.Token = message.data.token
+        userStore.Role = message.data.role
+        userStore.Nickname = message.data.nickname
+        userStore.Email = message.data.email
+        userStore.Token = message.data.token
         ElMessage({
           message: '登录成功',
           type: 'success'
         })
-        userState.LoginVisibility = false
+        userStore.LoginVisibility = false
       }
     })
     .catch((err) => {

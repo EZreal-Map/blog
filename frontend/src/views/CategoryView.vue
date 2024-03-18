@@ -21,14 +21,14 @@
 </template>
 
 <script setup>
-console.log('CategoryView.vue')
+// console.log('CategoryView.vue')
 import { ref } from 'vue'
 import ArticlesView from '@/views/ArticlesView.vue'
 import { useRoute } from 'vue-router'
 import { getTagListService } from '@/api/tag.js'
 
 const route = useRoute()
-console.log('route:', route.path)
+// console.log('route:', route.path)
 
 const tags = ref()
 ;(async () => {

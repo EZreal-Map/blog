@@ -15,6 +15,7 @@ from fastapi.staticfiles import StaticFiles
 from api.blog import blogRouter
 from api.user import userRouter
 from api.tag import tagRouter
+from api.image import imageRouter
 from core.Events import startup, stopping
 # from core.Exception import http_error_handler, http422_error_handler, unicorn_exception_handler, UnicornException
 # from core.Middleware import Middleware
@@ -43,16 +44,16 @@ application.add_event_handler("shutdown", stopping(application))
 application.include_router(blogRouter, prefix="/blog", tags=["blog"])
 application.include_router(userRouter, prefix="/user",tags=["user"])
 application.include_router(tagRouter, prefix="/tag",tags=["tag"])
-
+application.include_router(imageRouter, prefix="/image",tags=["image"])
 
 # 中间件
 # application.add_middleware(Middleware)
-application.add_middleware(
-    SessionMiddleware,
-    secret_key="session",
-    session_cookie="f_id",
-    # max_age=4
-)
+# application.add_middleware(
+#     SessionMiddleware,
+#     secret_key="session",
+#     session_cookie="f_id",
+#     # max_age=4
+# )
 application.add_middleware(
     CORSMiddleware,
     allow_origins=settings.CORS_ORIGINS,
@@ -70,7 +71,7 @@ register_tortoise(
 )
 
 # 静态资源目录
-application.mount('/static', StaticFiles(directory=os.path.join(os.getcwd(), "static")))
+# application.mount('/static', StaticFiles(directory=os.path.join(os.getcwd(), "static")))
 
 app = application
 
