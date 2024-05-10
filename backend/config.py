@@ -1,9 +1,9 @@
 import os.path
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 from typing import List
 
 
-class Config(BaseSettings):
+class Config():
     # 调试模式
     APP_DEBUG: bool = True
     # 项目信息

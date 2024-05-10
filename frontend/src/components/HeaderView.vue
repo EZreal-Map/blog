@@ -18,18 +18,18 @@
       >时间归档</el-menu-item
     >
     <el-menu-item
-      index="/blog/category"
+      index="/blog/categories"
       @click="router.push({ path: '/blog/categories' })"
       >分类</el-menu-item
     >
     <!-- 总结占格子，作用撑开的作用 -->
     <div class="flex-grow"></div>
     <el-sub-menu index="admin" popper-class="pop-menu">
-      <template #title>{{ userState.Nickname || 'VISITOR' }}</template>
+      <template #title>{{ userStore.Nickname || 'VISITOR' }}</template>
       <el-menu-item
         class="submenu-paddingleft"
         index="login"
-        @click="userState.LoginVisibility = true"
+        @click="userStore.LoginVisibility = true"
         >登录</el-menu-item
       >
       <!-- 如果不是管理员，则禁用删除按钮 -->
@@ -37,7 +37,7 @@
         class="submenu-paddingleft"
         index="/blog/create"
         @click="router.push({ path: '/blog/create' })"
-        :disabled="userState.Role !== 'admin'"
+        :disabled="userStore.Role !== 'admin'"
         >新建</el-menu-item
       >
       <!-- 如果不是管理员或者编辑按钮被禁用，则禁用删除按钮 -->
@@ -45,15 +45,15 @@
         class="submenu-paddingleft"
         index="/blog/delete"
         @click="deleteBlogHandle()"
-        :disabled="userState.Role !== 'admin' || userState.EditIconDisabled"
+        :disabled="userStore.Role !== 'admin' || userStore.EditIconDisabled"
         >删除</el-menu-item
       >
       <!-- 如果不是管理员或者编辑按钮被禁用，则禁用编辑按钮 -->
       <el-menu-item
         class="submenu-paddingleft"
         index="edit"
-        @click="userState.Edit = !userState.Edit"
-        :disabled="userState.Role !== 'admin' || userState.EditIconDisabled"
+        @click="userStore.Edit = !userStore.Edit"
+        :disabled="userStore.Role !== 'admin' || userStore.EditIconDisabled"
         >编辑</el-menu-item
       >
     </el-sub-menu>
@@ -68,7 +68,7 @@ import { useUserStore } from '@/stores/user.js'
 // import { ElMessage, ElMessageBox } from 'element-plus'
 import { deleteBlogIDService } from '@/api/blog'
 
-const userState = useUserStore()
+const userStore = useUserStore()
 
 const route = useRoute()
 const router = useRouter()

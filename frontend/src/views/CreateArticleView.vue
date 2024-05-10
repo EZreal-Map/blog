@@ -48,7 +48,7 @@ import { getTagListService } from '@/api/tag.js'
 import { useUserStore } from '@/stores/user.js'
 import { postUploadImgService } from '@/api/image'
 
-const userState = useUserStore()
+const userStore = useUserStore()
 const router = useRouter()
 const props = defineProps({
   blog_id: {
@@ -130,7 +130,7 @@ const blogSave = async () => {
     // console.log('blog save success')
     const id = response.data.id
     router.push({ path: `/blog/articles/${id}` })
-    userState.Edit = false
+    userStore.Edit = false
     ElMessage({
       message: '修改博客成功',
       type: 'success'
@@ -154,6 +154,8 @@ const onUploadImg = async (files) => {
         const baseUrl = 'http://8.148.8.169'
         const imagesPortNumber = '8964'
         const imageMarkdown = `![${file.name}](${baseUrl}:${imagesPortNumber}/${encodeURIComponent(response.data.filename)})`
+        // const baseUrl = '/images' // 服务器部署时使用
+        // const imageMarkdown = `![${file.name}](${baseUrl}/${encodeURIComponent(response.data.filename)})`  // 服务器部署时使用
         // 将图片插入到编辑器中
         create_content.value = imageMarkdown + '\n' + create_content.value
         successfulUploadCount += 1

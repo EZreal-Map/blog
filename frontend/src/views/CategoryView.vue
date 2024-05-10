@@ -1,11 +1,11 @@
 <template>
   <div class="container-left">
+    <!-- decodeURIComponent特定的为url中出现中文解码 -->
     <el-menu
       :default-active="decodeURIComponent(route.path)"
       background-color="efefef"
       :router="true"
     >
-      <!-- decodeURIComponent特定的为url中出现中文解码 -->
       <el-menu-item
         v-for="tag in tags"
         :index="`/blog/categories/${tag.name}`"
