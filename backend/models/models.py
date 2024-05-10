@@ -44,4 +44,8 @@ class Tag(Model):
     created_at = fields.DatetimeField(auto_now_add=True)
     updated_at = fields.DatetimeField(auto_now=True)
     
-   
+  
+class Time(Model):
+    id = fields.IntField(pk=True)
+    start_time = fields.DatetimeField(auto_now_add=True)
+    end_time = fields.DatetimeField(auto_now=True)

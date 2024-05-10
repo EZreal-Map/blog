@@ -6,6 +6,7 @@ from fastapi import HTTPException, status
 import tortoise
 from typing import List
 from datetime import datetime
+import jwt
 
 blogRouter = APIRouter()
 
@@ -30,27 +31,40 @@ class PostBlogOutModel(BaseModel):
     updated_at: datetime
 
 @blogRouter.get('',response_model=List[GetBlogListOutModel],summary="获取文章列表",description="获取文章列表，支持分页和标签过滤")
-async def getArticle(limit: int = Query(None, description="Limit the number of articles", ge=1), tag: str = Query(None, description="Filter articles by tag")):
-    if limit:
-        blog_limit = await Blog.all().order_by('-created_at').limit(limit)
-        return blog_limit
+async def getArticle(limit: int = Query(None, description="Limit the number of articles", ge=1), tag: str = Query(None, description="Filter articles by tag"), is_admin: bool = Depends(is_admin_user)):
+    # 构建基本查询，先应用排除逻辑
+    if not is_admin:
+        query = Blog.exclude(tag__name='Think').order_by('-created_at')
+    else:
+        query = Blog.all().order_by('-created_at')
+    
+    # 应用标签过滤，如果有指定
     if tag:
-        # 使用 prefetch_related 优化查询
-        blog_tag = await Blog.filter(tag__name=tag).prefetch_related('tag').order_by('-created_at')
-        return blog_tag
-    blog_all = await Blog.all().order_by('-created_at')
-    return blog_all
+        query = query.filter(tag__name=tag)
+    
+    # 最后应用 limit 条件
+    if limit:
+        query = query.limit(limit)
+    
+    # 执行查询并返回结果
+    blog_list = await query
+    return blog_list
 
-@blogRouter.get('/{blog_id}',response_model=GetBlogOutModel,summary="获取文章详情",description="获取文章详情")
-async def getArticle(blog_id: int):
+        
+@blogRouter.get('/{blog_id}', response_model=GetBlogOutModel, summary="获取文章详情", description="获取文章详情")
+async def getArticle(blog_id: int, is_admin: bool = Depends(is_admin_user)):
+    blog = await Blog.get(id=blog_id).prefetch_related('tag')
+    print(blog.tag.name)
     try:
-        blog = await Blog.get(id=blog_id)
+        # 预先加载相关的标签数据
+        blog = await Blog.get(id=blog_id).prefetch_related('tag')
+        print(blog.tag.name)
+        # 如果用户不是管理员且博客的标签为"Think"，则抛出403错误
+        if not is_admin and blog.tag.name == 'Think':
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="无权限查看该文章")
         return blog
     except tortoise.exceptions.DoesNotExist:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="文章不存在",
-        )
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="文章不存在")
 
 
 class ArticleValidator(BaseModel):
