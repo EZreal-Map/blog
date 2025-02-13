@@ -23,7 +23,7 @@ import HeaderView from '@/components/HeaderView.vue'
 }
 
 .layout-header {
-  display: flex;
+  /* display: flex; */
   /* justify-content: space-between; */
   /* align-items: center; */
   /* background-color: #add8e6; */

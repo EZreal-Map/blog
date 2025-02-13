@@ -18,6 +18,7 @@ from api.tag import tagRouter
 from api.image import imageRouter
 from api.time import timeRouter
 from core.Events import startup, stopping
+
 # from core.Exception import http_error_handler, http422_error_handler, unicorn_exception_handler, UnicornException
 # from core.Middleware import Middleware
 from tortoise.contrib.fastapi import register_tortoise
@@ -27,8 +28,8 @@ application = FastAPI(
     debug=settings.APP_DEBUG,
     description=settings.DESCRIPTION,
     version=settings.VERSION,
-    title=settings.PROJECT_NAME
-    )
+    title=settings.PROJECT_NAME,
+)
 
 
 # 事件监听
@@ -43,10 +44,10 @@ application.add_event_handler("shutdown", stopping(application))
 
 # 路由
 application.include_router(blogRouter, prefix="/blog", tags=["blog"])
-application.include_router(userRouter, prefix="/user",tags=["user"])
-application.include_router(tagRouter, prefix="/tag",tags=["tag"])
-application.include_router(imageRouter, prefix="/image",tags=["image"])
-application.include_router(timeRouter, prefix="/time",tags=["time"])
+application.include_router(userRouter, prefix="/user", tags=["user"])
+application.include_router(tagRouter, prefix="/tag", tags=["tag"])
+application.include_router(imageRouter, prefix="/image", tags=["image"])
+application.include_router(timeRouter, prefix="/time", tags=["time"])
 
 # 中间件
 # application.add_middleware(Middleware)
@@ -67,7 +68,7 @@ application.add_middleware(
 TORTOISE_ORM = settings.TORTOISE_ORM  # 数据库配置 aerich init -t main.TORTOISE_ORM
 register_tortoise(
     application,
-    config = TORTOISE_ORM,
+    config=TORTOISE_ORM,
     # generate_schemas=True,  # 如果数据库为空，则自动生成对应表单，生产环境不要开
     # add_exception_handlers=True,  # 生产环境不要开，会泄露调试信息
 )
@@ -77,5 +78,5 @@ register_tortoise(
 
 app = application
 
-if __name__ == '__main__':
-    uvicorn.run("main:app", host="127.0.0.1", port=8080, reload=True)
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="0.0.0.0", port=8080, reload=True)

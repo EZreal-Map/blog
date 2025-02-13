@@ -3,8 +3,8 @@ import axios from 'axios'
 // import { ElMessage } from 'element-plus'
 import router from '@/router'
 
-const baseURL = 'http://127.0.0.1:8080'
-// const baseURL = '/api'
+// const baseURL = 'http://127.0.0.1:8080'
+const baseURL = '/api'
 
 const instance = axios.create({
   baseURL, // TODO 1. 基础地址，超时时间
