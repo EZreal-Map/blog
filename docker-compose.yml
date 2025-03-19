@@ -39,6 +39,8 @@ services:
     build: .  # 从当前目录构建镜像
     ports:
       - 9023:8080  # 将容器的8080端口映射到宿主机的9013端口
+    volumes:
+        - D:/Users/tangk/Desktop/code/blog/docker-volumes/nginx/blog_images:/usr/share/nginx/blog_images  # 映射 8964 端口 的图片（后端也挂起这个路径，以便前端nginx可以访问后端保存的路径）
     depends_on:
       - mysql  # 确保 mysql 服务在 fastapi 启动之前启动
     networks:

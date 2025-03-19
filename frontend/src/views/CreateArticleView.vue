@@ -151,9 +151,9 @@ const onUploadImg = async (files) => {
       console.log('response:', response)
 
       if (response.status === 200) {
-        const baseUrl = 'http://8.148.8.169'
-        const imagesPortNumber = '8964'
-        const imageMarkdown = `![${file.name}](${baseUrl}:${imagesPortNumber}/${encodeURIComponent(response.data.filename)})`
+        // 前端nginx反向代理静态图片的访问路径
+        const baseUrl = '/images'
+        const imageMarkdown = `![${file.name}](${baseUrl}/${encodeURIComponent(response.data.filename)})`
         // const baseUrl = '/images' // 服务器部署时使用
         // const imageMarkdown = `![${file.name}](${baseUrl}/${encodeURIComponent(response.data.filename)})`  // 服务器部署时使用
         // 将图片插入到编辑器中
