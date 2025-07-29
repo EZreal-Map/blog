@@ -5,11 +5,7 @@
     </div>
 
     <div class="container-main" v-else>
-      <div
-        v-for="(weeks, weekIndex) in datas?.weeks"
-        :key="weekIndex"
-        class="weeks"
-      >
+      <div v-for="(weeks, weekIndex) in datas?.weeks" :key="weekIndex" class="weeks">
         <div v-for="cell in weeks.contributionDays" :key="cell.firstDay">
           <!-- <el-tooltip
             class="box-item"
@@ -21,9 +17,7 @@
             class="cell"
             :data-tip="`${cell.contributionCount === 0 ? 'No contribution' : cell.contributionCount + ' contributions'} on ${cell.date}`"
             :style="{ backgroundColor: cell.color }"
-            @mouseenter="
-              showTooltipHandler($event, cell.contributionCount, cell.date)
-            "
+            @mouseenter="showTooltipHandler($event, cell.contributionCount, cell.date)"
             @mouseleave="tooltip_visible = false"
           ></div>
           <!-- </el-tooltip> -->
@@ -44,8 +38,10 @@
 
 <script setup>
 import { ref } from 'vue'
-import { githubApiKey, githubName } from '/secret.js'
 import { getGithubContributions } from '@/api/github.js'
+
+const githubApiKey = import.meta.env.VITE_GITHUB_API_KEY
+const githubName = import.meta.env.VITE_GITHUB_NAME
 
 let datas = null
 const loading = ref(true)
